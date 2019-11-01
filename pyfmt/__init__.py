@@ -127,7 +127,7 @@ def pyfmt(
         display_divider(title="SKIPPING FILES")
         for filename_to_skip in filenames_to_skip:
             print(f"SKIPPING: {filename_to_skip}")
-        print("\nNumber of files to be skipped: {}".format(len(filenames_to_skip)))
+        print(f"\nNumber of files to be skipped: {len(filenames_to_skip)}")
         # Make a continuos string of arguments for
         #   isort - must be separate --skip for each file
         #   black - regex for exact filename (ie. file1|file2|etc.)
