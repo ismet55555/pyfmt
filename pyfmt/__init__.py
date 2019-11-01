@@ -135,7 +135,7 @@ def pyfmt(
         black_filenames_to_skip = ""
         for filename in filenames_to_skip:
             isort_filenames_to_skip += f"--skip={filename} "
-            black_filenames_to_skip += filename + "|"
+            black_filenames_to_skip += f"{filename}|"
         isort_filenames_to_skip = isort_filenames_to_skip[:-1]
         black_filenames_to_skip = black_filenames_to_skip[:-1]
         # Adding to the isort and black arguments
