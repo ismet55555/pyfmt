@@ -90,10 +90,11 @@ def display_divider(title="", character="=", color_code="\033[94m"):
 
 
 def pyfmt(
-    path, skip="", check=False, line_length=100, extra_isort_args="", extra_black_args=""
+    path, skip="", check=False, line_length=100, show_title=False, extra_isort_args="", extra_black_args=""
 ) -> int:
     """Run isort and black with the given params and print the results."""
-    pyfmt_title()  # Display title
+    if show_title:
+        pyfmt_title()  # Display title
     timer_start = time.time()  # Measure how long everything takes
 
     if skip:
@@ -131,13 +132,8 @@ def pyfmt(
         # Make a continuos string of arguments for
         #   isort - must be separate --skip for each file
         #   black - regex for exact filename (ie. file1|file2|etc.)
-        isort_filenames_to_skip = ""
-        black_filenames_to_skip = ""
-        for filename in filenames_to_skip:
-            isort_filenames_to_skip += "--skip=" + filename + " "
-            black_filenames_to_skip += filename + "|"
-        isort_filenames_to_skip = isort_filenames_to_skip[:-1]
-        black_filenames_to_skip = black_filenames_to_skip[:-1]
+        isort_filenames_to_skip = "--skip=" + " --skip=".join(filenames_to_skip)
+        black_filenames_to_skip = "--exclude=" + "|".join(filenames_to_skip)
         # Adding to the isort and black arguments
         extra_isort_args += isort_filenames_to_skip
         extra_black_args += "--exclude=" + black_filenames_to_skip

@@ -32,6 +32,7 @@ def main():
         default=DEFAULT_LINE_LENGTH,
         help="max characters per line; defaults to $MAX_LINE_LENGTH or 100",
     )
+    parser.add_argument("--show-title", action="store_true", help="Show a fancy title at the beginning of pyfmt")
     parser.add_argument("--extra-isort-args", default="", help="additional args to pass to isort")
     parser.add_argument("--extra-black-args", default="", help="additional args to pass to black")
 
@@ -42,6 +43,7 @@ def main():
         skip=opts.skip,
         check=opts.check,
         line_length=opts.line_length,
+        show_title=opts.show_title,
         extra_isort_args=opts.extra_isort_args,
         extra_black_args=opts.extra_black_args,
     )

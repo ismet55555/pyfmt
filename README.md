@@ -43,7 +43,8 @@ If you are not in your virtual env, the global Python environment will be used w
 your local package imports in with the 3rd party package imports.
 
 ```console
-usage: pyfmt [-h] [--check] [--line-length LINE_LENGTH]
+usage: pyfmt [-h] [--skip] [--check] [--line-length LINE_LENGTH]
+             [--show-title]
              [--extra-isort-args EXTRA_ISORT_ARGS]
              [--extra-black-args EXTRA_BLACK_ARGS]
              [PATH]
@@ -54,11 +55,13 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
+  --skip                Directory (ie. env/foo) or files (ie. cool.py) to skip
   --check               don't write changes, just print the files that would
                         be formatted
   --line-length LINE_LENGTH
                         max characters per line; defaults to $MAX_LINE_LENGTH
                         or 100
+  --show-title          show a fancy title at the beginning of pyfmt
   --extra-isort-args EXTRA_ISORT_ARGS
                         additional args to pass to isort
   --extra-black-args EXTRA_BLACK_ARGS
