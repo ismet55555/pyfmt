@@ -109,15 +109,15 @@ def pyfmt(
                     filenames_to_skip.extend([item])
             elif os.path.abspath(item) in all_dirs:
                 # Saving all filenames in directory
-                files_in_dir = list()
+                files_in_dir = []
                 for (dirpath, dirnames, filenames) in os.walk(item):
                     for filename in filenames:
-                        if filename.split(".")[-1] == "py" or filename.split(".")[-1] == "pyi":
+                        if filename.split(".")[-1] in ("py", "pyi"):
                             files_in_dir.append(filename)
                 filenames_to_skip.extend(files_in_dir)
             else:
                 print(
-                    'CRITICAL: One of the files or directories marked as skipped not found ("{}").'.format(
+                    f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").'
                         item
                     )
                 )
@@ -128,7 +128,7 @@ def pyfmt(
         display_divider(title="SKIPPING FILES")
         for filename_to_skip in filenames_to_skip:
             print(f"SKIPPING: {filename_to_skip}")
-        print("\nNumber of files to be skipped: {}".format(len(filenames_to_skip)))
+        print(f"\nNumber of files to be skipped: {len(filenames_to_skip)}")
         # Make a continuos string of arguments for
         #   isort - must be separate --skip for each file
         #   black - regex for exact filename (ie. file1|file2|etc.)
