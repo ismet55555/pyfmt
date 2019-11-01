@@ -29,7 +29,7 @@ BLACK_CMD = [
 
 def pyfmt_title():
     """
-    Display a cool ascii art title
+    Display a cool ascii art title at the beginning
     """
     pyfmt_splash = [
         "               __           _    ",
