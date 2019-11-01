@@ -116,7 +116,7 @@ def pyfmt(
                 filenames_to_skip.extend(files_in_dir)
             else:
                 print(
-                    'CRITICAL: One of the files or directories marked as skipped not found ("{}").'.format(
+                    f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").'
                         item
                     )
                 )
