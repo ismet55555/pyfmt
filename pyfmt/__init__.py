@@ -1,5 +1,6 @@
 import os
 import shlex
+from shutil import get_terminal_size
 import subprocess
 import sys
 import time
@@ -43,7 +44,7 @@ def pyfmt_title():
     ]
     print("\033[94m")
     for part in pyfmt_splash:
-        print(f"{part.center(os.get_terminal_size().columns, ' ')}")
+        print(f"{part.center(get_terminal_size().columns, ' ')}")
     print("\033[0m")
 
 
@@ -76,7 +77,7 @@ def display_divider(title="", character="=", color_code="\033[94m"):
             "\n"
             + "{}".format(color_code)
             + "  {}  ".format(title.upper()).center(
-                os.get_terminal_size().columns, "{}".format(character)
+                get_terminal_size().columns, "{}".format(character)
             )
             + "\033[0m"
         )
@@ -84,7 +85,7 @@ def display_divider(title="", character="=", color_code="\033[94m"):
         print(
             "\n"
             + "{}".format(color_code)
-            + "".center(os.get_terminal_size().columns, "{}".format(character))
+            + "".center(get_terminal_size().columns, "{}".format(character))
             + "\033[0m"
         )
 
