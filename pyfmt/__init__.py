@@ -111,7 +111,7 @@ def pyfmt(
                 files_in_dir = []
                 for (dirpath, dirnames, filenames) in os.walk(item):
                     for filename in filenames:
-                        if filename.split(".")[-1] == "py" or filename.split(".")[-1] == "pyi":
+                        if filename.split(".")[-1] in ("py", "pyi"):
                             files_in_dir.append(filename)
                 filenames_to_skip.extend(files_in_dir)
             else:
