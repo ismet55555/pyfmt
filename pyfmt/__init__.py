@@ -108,7 +108,7 @@ def pyfmt(
                     filenames_to_skip.extend([item])
             elif os.path.abspath(item) in all_dirs:
                 # Saving all filenames in directory
-                files_in_dir = list()
+                files_in_dir = []
                 for (dirpath, dirnames, filenames) in os.walk(item):
                     for filename in filenames:
                         if filename.split(".")[-1] == "py" or filename.split(".")[-1] == "pyi":
