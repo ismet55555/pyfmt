@@ -91,7 +91,7 @@ def display_divider(title="", character="=", color_code="\033[94m"):
 
 
 def pyfmt(
-    path, skip="", check=False, line_length=100, show_title=False, extra_isort_args="", extra_black_args=""
+    path, skip="", isort=False, black=False, check=False, line_length=100, show_title=False, extra_isort_args="", extra_black_args=""
 ) -> int:
     """Run isort and black with the given params and print the results."""
     if show_title:
@@ -109,7 +109,7 @@ def pyfmt(
                 if item.split(".")[-1] == "py":
                     filenames_to_skip.extend([item])
             elif os.path.abspath(item) in all_dirs:
-                # Saving all filenames in directory
+                # Saving all filenames in user specified directory
                 files_in_dir = []
                 for (dirpath, dirnames, filenames) in os.walk(item):
                     for filename in filenames:
@@ -117,11 +117,7 @@ def pyfmt(
                             files_in_dir.append(filename)
                 filenames_to_skip.extend(files_in_dir)
             else:
-                print(
-                    f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").'
-                        item
-                    )
-                )
+                print(f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").')
                 print("CRITICAL: Check spelling or existence of file or directory")
                 print("CRITICAL: Aborting pyfmt ...")
                 sys.exit()
@@ -129,7 +125,7 @@ def pyfmt(
         display_divider(title="SKIPPING FILES")
         for filename_to_skip in filenames_to_skip:
             print(f"SKIPPING: {filename_to_skip}")
-        print(f"\nNumber of files to be skipped: {len(filenames_to_skip)}")
+        print(f"\nNumber of files to be skipped by pyfmt: {len(filenames_to_skip)}")
         # Make a continuos string of arguments for
         #   isort - must be separate --skip for each file
         #   black - regex for exact filename (ie. file1|file2|etc.)
@@ -143,15 +139,29 @@ def pyfmt(
         extra_isort_args += " --check-only"
         extra_black_args += " --check"
 
-    isort_exitcode = run_formatter(
-        ISORT_CMD, path, line_length=line_length, extra_isort_args=extra_isort_args
-    )
-    black_exitcode = run_formatter(
-        BLACK_CMD, path, line_length=line_length, extra_black_args=extra_black_args
-    )
+    # If user specified to run only isort or black
+    isort_black_run = [True, True]
+    if isort:
+        isort_black_run = [True, False]
+    if black:
+        isort_black_run = [False, True]
 
-    print("\npyfmt Execution Time: {0:.2f} seconds".format(time.time() - timer_start))
-    return isort_exitcode  # or black_exitcode
+    # Executing isort import formatter
+    isort_exitcode = 0
+    if isort_black_run[0]:
+        isort_exitcode = run_formatter(
+            ISORT_CMD, path, line_length=line_length, extra_isort_args=extra_isort_args
+        )
+
+    # Executing black code formatter
+    black_exitcode = 0
+    if isort_black_run[1]:
+        black_exitcode = run_formatter(
+            BLACK_CMD, path, line_length=line_length, extra_black_args=extra_black_args
+        )
+
+    display_divider(title="pyfmt Execution Time: {0:.2f} sec".format(time.time() - timer_start))
+    return isort_exitcode or black_exitcode
 
 
 def run_formatter(cmd, path, **kwargs) -> int:

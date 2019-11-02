@@ -57,8 +57,8 @@ optional arguments:
   -h, --help            show this help message and exit
   --skip                Directory (ie. env/foo) or files (ie. cool.py) to skip
                         Arguments are seperated by comma (ie. env,kung.py,foo.py)
-  --isort               Only process with isort (imports)
-  --black               Only process with black (code)
+  --isort               Only process with isort (imports only)
+  --black               Only process with black (code only)
   --check               don't write changes, just print the files that would
                         be formatted
   --line-length LINE_LENGTH
