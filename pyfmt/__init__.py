@@ -68,25 +68,21 @@ def find_all_files_and_dirs():
     return all_files, all_dirs
 
 
-def display_divider(title="", character="=", color_code="\033[94m"):
+def display_divider(title="", character="="):
     """
     Divider between sections of program.
     """
     if title:
         print(
             "\n"
-            + "{}".format(color_code)
             + "  {}  ".format(title.upper()).center(
                 get_terminal_size().columns, "{}".format(character)
             )
-            + "\033[0m"
         )
     else:
         print(
             "\n"
-            + "{}".format(color_code)
             + "".center(get_terminal_size().columns, "{}".format(character))
-            + "\033[0m"
         )
 
 
@@ -125,7 +121,6 @@ def pyfmt(
         display_divider(title="SKIPPING FILES")
         for filename_to_skip in filenames_to_skip:
             print(f"SKIPPING: {filename_to_skip}")
-        print(f"\nNumber of files to be skipped by pyfmt: {len(filenames_to_skip)}")
         # Make a continuos string of arguments for
         #   isort - must be separate --skip for each file
         #   black - regex for exact filename (ie. file1|file2|etc.)
@@ -160,7 +155,6 @@ def pyfmt(
             BLACK_CMD, path, line_length=line_length, extra_black_args=extra_black_args
         )
 
-    display_divider(title="pyfmt Execution Time: {0:.2f} sec".format(time.time() - timer_start))
     return isort_exitcode or black_exitcode
 
 

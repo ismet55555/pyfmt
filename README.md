@@ -44,7 +44,6 @@ your local package imports in with the 3rd party package imports.
 
 ```console
 usage: pyfmt [-h] [--skip] [--isort] [--black] [--check] [--line-length LINE_LENGTH]
-             [--show-title]
              [--extra-isort-args EXTRA_ISORT_ARGS]
              [--extra-black-args EXTRA_BLACK_ARGS]
              [PATH]
@@ -64,7 +63,6 @@ optional arguments:
   --line-length LINE_LENGTH
                         max characters per line; defaults to $MAX_LINE_LENGTH
                         or 100
-  --show-title          show a fancy title at the beginning of pyfmt
   --extra-isort-args EXTRA_ISORT_ARGS
                         additional args to pass to isort
   --extra-black-args EXTRA_BLACK_ARGS
