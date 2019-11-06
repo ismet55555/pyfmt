@@ -27,27 +27,6 @@ BLACK_CMD = [
     "{path}",
 ]
 
-
-def pyfmt_title():
-    """
-    Display a cool ascii art title
-    """
-    pyfmt_splash = [
-        "               __           _    ",
-        "              / _|         | |   ",
-        "  _ __  _   _| |_ _ __ ___ | |_  ",
-        " | '_ \| | | |  _| '_ ` _ \| __| ",
-        " | |_) | |_| | | | | | | | | |_  ",
-        " | .__/ \__, |_| |_| |_| |_|\__| ",
-        " | |     __/ |                   ",
-        " |_|    |___/                    ",
-    ]
-    print("\033[94m")
-    for part in pyfmt_splash:
-        print(f"{part.center(get_terminal_size().columns, ' ')}")
-    print("\033[0m")
-
-
 def find_all_files_and_dirs():
     """
     Map out all files and directories in the current
@@ -87,13 +66,9 @@ def display_divider(title="", character="="):
 
 
 def pyfmt(
-    path, skip="", isort=False, black=False, check=False, line_length=100, show_title=False, extra_isort_args="", extra_black_args=""
+    path, skip="", isort_only=False, black_only=False, check=False, line_length=100, show_title=False, extra_isort_args="", extra_black_args=""
 ) -> int:
     """Run isort and black with the given params and print the results."""
-    if show_title:
-        pyfmt_title()  # Display title
-    timer_start = time.time()  # Measure how long everything takes
-
     if skip:
         # Map out current working directory
         all_files, all_dirs = find_all_files_and_dirs()
@@ -128,29 +103,22 @@ def pyfmt(
         black_filenames_to_skip = "--exclude=" + "|".join(filenames_to_skip)
         # Adding to the isort and black arguments
         extra_isort_args += isort_filenames_to_skip
-        extra_black_args += "--exclude=" + black_filenames_to_skip
+        extra_black_args += black_filenames_to_skip
 
     if check:
         extra_isort_args += " --check-only"
         extra_black_args += " --check"
 
-    # If user specified to run only isort or black
-    isort_black_run = [True, True]
-    if isort:
-        isort_black_run = [True, False]
-    if black:
-        isort_black_run = [False, True]
-
     # Executing isort import formatter
     isort_exitcode = 0
-    if isort_black_run[0]:
+    if isort_only:
         isort_exitcode = run_formatter(
             ISORT_CMD, path, line_length=line_length, extra_isort_args=extra_isort_args
         )
 
     # Executing black code formatter
     black_exitcode = 0
-    if isort_black_run[1]:
+    if black_only:
         black_exitcode = run_formatter(
             BLACK_CMD, path, line_length=line_length, extra_black_args=extra_black_args
         )
