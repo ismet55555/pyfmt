@@ -1,9 +1,8 @@
 import os
 import shlex
-from shutil import get_terminal_size
 import subprocess
 import sys
-import time
+from shutil import get_terminal_size
 from subprocess import PIPE
 
 TARGET_VERSION = f"py{sys.version_info.major}{sys.version_info.minor}"
@@ -26,6 +25,7 @@ BLACK_CMD = [
     "{extra_black_args}",
     "{path}",
 ]
+
 
 def find_all_files_and_dirs():
     """
@@ -53,20 +53,25 @@ def display_divider(title="", character="="):
     """
     if title:
         print(
-            "\n"
-            + "  {}  ".format(title.upper()).center(
+            "\n",
+            "  {}  ".format(title.upper()).center(
                 get_terminal_size().columns, "{}".format(character)
-            )
+            ),
         )
     else:
-        print(
-            "\n"
-            + "".center(get_terminal_size().columns, "{}".format(character))
-        )
+        print("\n" + "".center(get_terminal_size().columns, "{}".format(character)))
 
 
 def pyfmt(
-    path, skip="", isort_only=False, black_only=False, check=False, line_length=100, show_title=False, extra_isort_args="", extra_black_args=""
+    path,
+    skip="",
+    isort_only=False,
+    black_only=False,
+    check=False,
+    line_length=100,
+    show_title=False,
+    extra_isort_args="",
+    extra_black_args="",
 ) -> int:
     """Run isort and black with the given params and print the results."""
     if skip:
@@ -88,7 +93,9 @@ def pyfmt(
                             files_in_dir.append(filename)
                 filenames_to_skip.extend(files_in_dir)
             else:
-                print(f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").')
+                print(
+                    f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").'
+                )
                 print("CRITICAL: Check spelling or existence of file or directory")
                 print("CRITICAL: Aborting pyfmt ...")
                 sys.exit()
@@ -111,14 +118,14 @@ def pyfmt(
 
     # Executing isort import formatter
     isort_exitcode = 0
-    if isort_only:
+    if not black_only:
         isort_exitcode = run_formatter(
             ISORT_CMD, path, line_length=line_length, extra_isort_args=extra_isort_args
         )
 
     # Executing black code formatter
     black_exitcode = 0
-    if black_only:
+    if not isort_only:
         black_exitcode = run_formatter(
             BLACK_CMD, path, line_length=line_length, extra_black_args=extra_black_args
         )
