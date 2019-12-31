@@ -1,9 +1,9 @@
 import os
 import shlex
-from shutil import get_terminal_size
 import subprocess
 import sys
 import time
+from shutil import get_terminal_size
 from subprocess import PIPE
 
 TARGET_VERSION = f"py{sys.version_info.major}{sys.version_info.minor}"
@@ -109,16 +109,17 @@ def pyfmt(
         extra_isort_args += " --check-only"
         extra_black_args += " --check"
 
+    # Execute all formatters if not one is specified
+    all_format = not any([isort_only, black_only])
     # Executing isort import formatter
     isort_exitcode = 0
-    if isort_only:
+    if isort_only or all_format:
         isort_exitcode = run_formatter(
             ISORT_CMD, path, line_length=line_length, extra_isort_args=extra_isort_args
         )
-
     # Executing black code formatter
     black_exitcode = 0
-    if black_only:
+    if black_only or all_format:
         black_exitcode = run_formatter(
             BLACK_CMD, path, line_length=line_length, extra_black_args=extra_black_args
         )
@@ -130,13 +131,12 @@ def run_formatter(cmd, path, **kwargs) -> int:
     """Helper to run a shell command and print prettified output."""
     cmd = shlex.split(" ".join(cmd).format(path=path, **kwargs))
     result = subprocess.run(cmd, stdout=PIPE, stderr=PIPE)
-
     prefix = f"{cmd[0]}: "
     display_divider(title=prefix[:-2])
     sep = "\n"
     lines = result.stdout.decode().splitlines() + result.stderr.decode().splitlines()
     if "".join(lines) == "":
-        print(f"No changes.")
+        print(f"No Changes")
     else:
         print(f"{sep.join(lines)}")
 
