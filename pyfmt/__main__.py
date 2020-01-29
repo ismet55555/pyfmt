@@ -21,8 +21,12 @@ def main():
     parser.add_argument(
         "--skip", default="", help="Directory (ie. env/foo) or files (ie. cool.py) to skip."
     )
-    parser.add_argument("--isort-only", action="store_true", help="Only process with isort (imports only)")
-    parser.add_argument("--black-only", action="store_true", help="Only process with black (code only)")
+    parser.add_argument(
+        "--isort-only", action="store_true", help="Only process with isort (imports only)"
+    )
+    parser.add_argument(
+        "--black-only", action="store_true", help="Only process with black (code only)"
+    )
     parser.add_argument(
         "--check",
         action="store_true",

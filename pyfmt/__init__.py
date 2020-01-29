@@ -27,6 +27,7 @@ BLACK_CMD = [
     "{path}",
 ]
 
+
 def find_all_files_and_dirs():
     """
     Map out all files and directories in the current
@@ -59,14 +60,19 @@ def display_divider(title="", character="="):
             )
         )
     else:
-        print(
-            "\n"
-            + "".center(get_terminal_size().columns, "{}".format(character))
-        )
+        print("\n" + "".center(get_terminal_size().columns, "{}".format(character)))
 
 
 def pyfmt(
-    path, skip="", isort_only=False, black_only=False, check=False, line_length=100, show_title=False, extra_isort_args="", extra_black_args=""
+    path,
+    skip="",
+    isort_only=False,
+    black_only=False,
+    check=False,
+    line_length=100,
+    show_title=False,
+    extra_isort_args="",
+    extra_black_args="",
 ) -> int:
     """Run isort and black with the given params and print the results."""
     if skip:
@@ -88,7 +94,9 @@ def pyfmt(
                             files_in_dir.append(filename)
                 filenames_to_skip.extend(files_in_dir)
             else:
-                print(f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").')
+                print(
+                    f'CRITICAL: One of the files or directories marked as skipped not found ("{item}").'
+                )
                 print("CRITICAL: Check spelling or existence of file or directory")
                 print("CRITICAL: Aborting pyfmt ...")
                 sys.exit()
